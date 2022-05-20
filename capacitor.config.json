@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Integralito",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

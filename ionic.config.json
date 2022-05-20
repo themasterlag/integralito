@@ -1,0 +1,8 @@
+{
+  "name": "Integralito",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "aae39aca"
+}

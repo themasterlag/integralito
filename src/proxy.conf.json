@@ -1,0 +1,11 @@
+{
+    "/api_backend/*": {
+        "target": "http://api.wolframalpha.com/v2/",
+        "secure": false,
+        "pathRewrite": {
+          "^/api_backend": ""
+        },
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+  }

@@ -1,7 +1,11 @@
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Poblacion
+      Calculadora integrales
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,27 +18,39 @@
     </ion-toolbar>
   </ion-header>
 
+  <br>
+  <br>
+  <br>
   
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-title>Integrales CalcuCardeño 😎</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      
       <ion-item>
-        <ion-label position="floating">Floating Label</ion-label>
-        <ion-input></ion-input>
+        <ion-label position="floating">Variable</ion-label>
+        <ion-input [(ngModel)]="variable"></ion-input>
       </ion-item>
 
-      <ion-button color="primary" (click)="calcular()">Calcular</ion-button>
+      <ion-item>
+        <ion-label position="floating">Funcion</ion-label>
+        <ion-input [(ngModel)]="formula"></ion-input>
+      </ion-item>
+      
+      <ion-button color="primary" (click)="calcular()">Calcular integral</ion-button>
+      
+      <br>
+      <br>
+
       
       <ion-item>
-        <ion-label position="stacked">Resultado</ion-label>
+        <ion-label position="floating">Resultado</ion-label>
         <ion-spinner *ngIf="calculando" name="dots"></ion-spinner>
-
-        <ion-input disabled="true">{{resultado}}</ion-input>
+        <br>
+        <ion-input *ngIf="error!=''" color="danger"><ion-icon name="close-circle" disabled></ion-icon> {{error}} </ion-input>
+        <ion-img *ngIf="imagen!=''" disabled="true" src="{{imagen}}" style="width: 100%;"></ion-img>
+        <ion-text *ngIf="resultado!=''" disabled="true">{{resultado}}</ion-text>
       </ion-item>
 
     </ion-card-content>

@@ -11,30 +11,55 @@ import math from 'mathjs/lib/browser/math.js';
 })
 
 export class Tab1Page {
-  urlRecursos:string ="http://localhost:8100/api_backend/";
+  urlRecursos: string = "http://localhost:8100/api_backend/";
 
-  calculando:boolean = false;
-  imagen:string;
-  resultado:string;
-  formula:string;
+  calculando: boolean = false;
+  imagen: string = "";
+  resultado: string;
+  formula: string;
+  variable: string;
 
-  constructor(private http: HttpClient) {  }
+  error:string = "";
+
+  prueba:string = "$$\sum_{i=1}^nc=cn$$";
+
+  constructor(private http: HttpClient) { }
 
 
-  calcular(){
+  calcular() {
     this.calculando = true;
     this.imagen = "";
     this.resultado = "";
-    
-    this.http.get(this.urlRecursos+"query?input=pi&appid=3KJKX5-W3WK72VWQQ&format=image&output=json")
-    .subscribe(data => {
-      console.log(data['queryresult']['pods'][1]['subpods'][0]['img']['title']);
-      this.resultado = data['queryresult']['pods'][1]['subpods'][0]['img']['title'];
-      this.imagen = this.urlRecursos+data['queryresult']['pods'][1]['subpods'][0]['img']['src'];
+    this.error = "";
+
+    let calculo: string = "Integrate[" + this.formula + "," + this.variable + "]";
+
+    let ruta: string = this.urlRecursos + "query?input=" + calculo;
+    try {
+      this.http.get(ruta + "&appid=3KJKX5-W3WK72VWQQ&format=image&output=json")
+        .subscribe(data => {
+          console.log(data['queryresult']["success"]);
+          if(data['queryresult']["success"]==true){
+          this.resultado = data['queryresult']['pods'][0]['subpods'][0]['img']['title'];
+          this.imagen = data['queryresult']['pods'][0]['subpods'][0]['img']['src'];
+          }
+          else{
+            this.error = "Error al calcular, por favor verifique la formula";
+          }
+        },
+        error => {
+          this.error = error;
+          console.log(error);
+        });
+    } catch (error) {
+      this.error = "Error al calcular, por favor verifique la formula";
+    }
+    finally {
       this.calculando = false;
-    });
+    }
+
   }
 
-  
+
 
 }

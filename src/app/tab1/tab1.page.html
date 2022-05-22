@@ -30,26 +30,25 @@
     <ion-card-content>
       <ion-item>
         <ion-label position="floating">Variable</ion-label>
-        <ion-input [(ngModel)]="variable"></ion-input>
+        <ion-input [(ngModel)]="variable" placeholder="Ingrese la variable por ejemplo 'x'"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Funcion</ion-label>
-        <ion-input [(ngModel)]="formula"></ion-input>
+        <ion-input [(ngModel)]="formula" placeholder="Ingrese la formula por ejemplo 'x^2'"></ion-input>
       </ion-item>
       
       <ion-button color="primary" (click)="calcular()">Calcular integral</ion-button>
       
       <br>
-      <br>
 
       
       <ion-item>
         <ion-label position="floating">Resultado</ion-label>
-        <ion-spinner *ngIf="calculando" name="dots"></ion-spinner>
         <br>
+        <ion-spinner *ngIf="calculando" name="dots"></ion-spinner>
         <ion-input *ngIf="error!=''" color="danger"><ion-icon name="close-circle" disabled></ion-icon> {{error}} </ion-input>
-        <ion-img *ngIf="imagen!=''" disabled="true" src="{{imagen}}" style="width: 100%;"></ion-img>
+        <ion-img *ngIf="imagen!=''" disabled="true" src="{{imagen}}" style="width: 100%;" (click)="descargarImagen()" ></ion-img>
         <ion-text *ngIf="resultado!=''" disabled="true">{{resultado}}</ion-text>
       </ion-item>
 

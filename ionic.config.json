@@ -1,7 +1,8 @@
 {
   "name": "Integralito",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular",
   "id": "aae39aca"

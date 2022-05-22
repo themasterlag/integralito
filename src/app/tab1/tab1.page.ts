@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import math from 'mathjs/lib/browser/math.js';
 
 
 @Component({
@@ -11,17 +10,17 @@ import math from 'mathjs/lib/browser/math.js';
 })
 
 export class Tab1Page {
-  urlRecursos: string = "http://localhost:8100/api_backend/";
+  // urlRecursos: string = "http://localhost/tabs/tab1/api_backend/";
+  urlRecursos: string = "https://api-cors-proxy-devdactic.herokuapp.com/http://api.wolframalpha.com/v2/";
 
   calculando: boolean = false;
   imagen: string = "";
   resultado: string;
-  formula: string;
-  variable: string;
+  formula: string="";
+  variable: string="";
 
   error:string = "";
 
-  prueba:string = "$$\sum_{i=1}^nc=cn$$";
 
   constructor(private http: HttpClient) { }
 
@@ -46,20 +45,37 @@ export class Tab1Page {
           else{
             this.error = "Error al calcular, por favor verifique la formula";
           }
+          this.calculando = false;
         },
         error => {
           this.error = error;
           console.log(error);
+          this.calculando = false;
         });
     } catch (error) {
       this.error = "Error al calcular, por favor verifique la formula";
-    }
-    finally {
       this.calculando = false;
     }
-
   }
 
 
+  descargarImagen(){
+    var img = new Image();
+    img.src = this.imagen;
+    img.onload = function () {
+      var canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      var dataURL = canvas.toDataURL('image/png');
+      var a = document.createElement("a");
+      a.href = dataURL;
+      a.download = "imagen.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }
 
 }

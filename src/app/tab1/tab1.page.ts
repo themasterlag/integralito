@@ -18,9 +18,9 @@ export class Tab1Page {
   resultado: string;
   formula: string="";
   variable: string="";
-
+  calculo: string = "";
   error:string = "";
-
+  ruta: string = "";
 
   constructor(private http: HttpClient) { }
 
@@ -31,11 +31,54 @@ export class Tab1Page {
     this.resultado = "";
     this.error = "";
 
-    let calculo: string = "Integrate[" + this.formula + "," + this.variable + "]";
+    let formulaFinal:string = this.formula;
+    let cantidadCaracteres:number = 0;
+    
+    cantidadCaracteres = formulaFinal.split("+").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace("+", "%2B");      
+    }
 
-    let ruta: string = this.urlRecursos + "query?input=" + calculo;
+    cantidadCaracteres = formulaFinal.split("-").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace("-", "%2D");
+    }
+
+    cantidadCaracteres = formulaFinal.split("*").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace("*", "%2A");
+    }
+
+    cantidadCaracteres = formulaFinal.split("/").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace("/", "%2F");
+    }
+
+    cantidadCaracteres = formulaFinal.split("(").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace("(", "%28");
+    }
+
+    cantidadCaracteres = formulaFinal.split(")").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace(")", "%29");
+    }
+
+    cantidadCaracteres = formulaFinal.split("^").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace("^", "%5E");
+    }
+
+    cantidadCaracteres = formulaFinal.split(" ").length;
+    for (let i = 0; i < cantidadCaracteres; i++) {
+      formulaFinal = formulaFinal.replace(" ", "+");
+    }
+
+    this.calculo = "Integrate[" + formulaFinal + "," + this.variable + "]";
+
+    this.ruta = this.urlRecursos + "query?input=" + this.calculo + "&appid=3KJKX5-W3WK72VWQQ&format=image&output=json";
     try {
-      this.http.get(ruta + "&appid=3KJKX5-W3WK72VWQQ&format=image&output=json")
+      this.http.get(this.ruta)
         .subscribe(data => {
           console.log(data['queryresult']["success"]);
           if(data['queryresult']["success"]==true){
